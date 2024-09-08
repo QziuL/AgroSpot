@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:15
+    container_name: db_postgres
+    environment:
+      POSTGRES_USER: admin  # Define o usuário do banco de dados
+      POSTGRES_PASSWORD: admin123  # Define a senha do usuário
+      POSTGRES_DB: agrospot  # Nome do banco de dados a ser criado
+    ports:
+      - "5432:5432"  # Mapeia a porta 5432 do container para a porta 5432 da máquina host
