@@ -1,7 +1,7 @@
 package agrospot.enums;
 
 public enum RolesEnum {
-    BASIC,
+    USER,
     ADMIN,
     PRODUCER
 }
