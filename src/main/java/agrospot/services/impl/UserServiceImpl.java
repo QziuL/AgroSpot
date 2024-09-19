@@ -7,8 +7,8 @@ import agrospot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,7 +33,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> findAllUsers() {
-        return List.of();
+        List<UserModel> users = userRepository.findAll();
+        List<UserDTO> userDtos = new ArrayList<>();
+        for (UserModel user : users) {
+            UserDTO userDto = new UserDTO(user.getName(), user.getEmail(), user.getPassword());
+            userDtos.add(userDto);
+            System.out.println(user);
+            System.out.println(user.getRoles());
+        }
+
+        return userDtos;
     }
 
     @Override
