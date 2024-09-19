@@ -1,8 +1,10 @@
 package agrospot.models;
 
+import agrospot.enums.RolesEnum;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,15 +28,15 @@ public class UserModel {
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "id_user"))
-    @Column(name = "id_role")
+    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role")
     private List<String> roles = new ArrayList<>();
 
-    public UserModel(String name, String email, String password, List<String> roles) {
+    public UserModel(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.roles = roles;
+        this.roles = List.of(String.valueOf(RolesEnum.USER));
         this.external_id = UUID.randomUUID();
     }
 
@@ -93,7 +95,8 @@ public class UserModel {
         return "User: " + id +
                 ", " + name +
                 ", " + email +
-                ", " + password;
+                ", " + password +
+                ", " + roles;
     }
 }
 
