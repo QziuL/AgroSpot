@@ -13,6 +13,7 @@ public class RolesModel {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "name")
     private RolesEnum role;
 
     public RolesModel(RolesEnum role) {
