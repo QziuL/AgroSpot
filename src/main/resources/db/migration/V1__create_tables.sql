@@ -14,9 +14,8 @@ CREATE TABLE roles(
 CREATE TABLE users_roles(
     id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     user_id         BIGINT NOT NULL,
-    role_id         BIGINT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users (id),
-    FOREIGN KEY (role_id) REFERENCES roles (id)
+    role            VARCHAR(100) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 CREATE TABLE addresses(
@@ -85,3 +84,4 @@ CREATE TABLE producer_fair(
     FOREIGN KEY (producer_id) REFERENCES producers (id),
     FOREIGN KEY (fair_id) REFERENCES fairs (id)
 );
+
