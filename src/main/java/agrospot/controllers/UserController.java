@@ -1,6 +1,6 @@
 package agrospot.controllers;
 
-import agrospot.dtos.request.UserDTO;
+import agrospot.dtos.request.CreateUserDTO;
 import agrospot.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +18,15 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    public ResponseEntity<List<CreateUserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
-    @PostMapping
-    public ResponseEntity<Object> createNewUser(@RequestBody UserDTO userDTO) {
-        return (userService.createUser(userDTO))
-                ? ResponseEntity.status(HttpStatus.CREATED).body("User created successfully.")
-                : ResponseEntity.badRequest().build();
-
-    }
+//    @PostMapping
+//    public ResponseEntity<Object> createNewUser(@RequestBody CreateUserDTO createUserDTO) {
+//        return (userService.createUser(createUserDTO))
+//                ? ResponseEntity.status(HttpStatus.CREATED).body("User created successfully.")
+//                : ResponseEntity.badRequest().build();
+//
+//    }
 }
