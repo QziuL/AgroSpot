@@ -1,6 +1,6 @@
 package agrospot.services.impl;
 
-import agrospot.dtos.request.UserDTO;
+import agrospot.dtos.request.CreateUserDTO;
 import agrospot.models.UserModel;
 import agrospot.repositorys.UserRepository;
 import agrospot.services.UserService;
@@ -16,9 +16,9 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public Boolean createUser(UserDTO userDto) {
+    public Boolean createUser(CreateUserDTO userDto) {
         try{
-            userRepository.save(userDto.convertDtoToModel(userDto));
+            userRepository.save(CreateUserDTO.convertDtoToModel(userDto));
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -27,16 +27,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findUserByEmail(String email) {
+    public CreateUserDTO findUserByEmail(String email) {
         return null;
     }
 
     @Override
-    public List<UserDTO> findAllUsers() {
+    public List<CreateUserDTO> findAllUsers() {
         List<UserModel> users = userRepository.findAll();
-        List<UserDTO> userDtos = new ArrayList<>();
+        List<CreateUserDTO> userDtos = new ArrayList<>();
         for (UserModel user : users) {
-            UserDTO userDto = new UserDTO(user.getName(), user.getEmail(), user.getPassword());
+            CreateUserDTO userDto = new CreateUserDTO(user.getName(), user.getEmail(), user.getPassword());
             userDtos.add(userDto);
             System.out.println(user);
             System.out.println(user.getRoles());
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO updateUserByEmail(String email) {
+    public CreateUserDTO updateUserByEmail(String email) {
         return null;
     }
 
