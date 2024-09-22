@@ -2,28 +2,25 @@ package agrospot.models;
 
 import agrospot.enums.RolesEnum;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
-public class UserModel {
+public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
     private UUID external_id;
-
     @Column(nullable = false)
     private String name;
-
     @Column(nullable = false, unique = true)
     private String email;
-
     @Column(nullable = false)
     private String password;
 
@@ -32,18 +29,43 @@ public class UserModel {
     @Column(name = "role")
     private List<String> roles = new ArrayList<>();
 
-    public UserModel(String name, String email, String password) {
+    public UserModel(String name, String email, String password, List<String> roles) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.roles = List.of(String.valueOf(RolesEnum.USER));
         this.external_id = UUID.randomUUID();
+        this.roles = roles;
     }
 
     public UserModel() {}
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(this.roles.contains(RolesEnum.ADMIN))
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public String toString() {
+        return "User: " + this.id +
+                ", " + this.name +
+                ", " + this.email +
+                ", " + this.password +
+                ", " + this.roles;
+    }
+
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
@@ -51,7 +73,7 @@ public class UserModel {
     }
 
     public UUID getExternal_id() {
-        return external_id;
+        return this.external_id;
     }
 
     public void setExternal_id(UUID external_id) {
@@ -59,7 +81,7 @@ public class UserModel {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -67,15 +89,11 @@ public class UserModel {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
@@ -83,20 +101,11 @@ public class UserModel {
     }
 
     public List<String> getRoles() {
-        return roles;
+        return this.roles;
     }
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "User: " + id +
-                ", " + name +
-                ", " + email +
-                ", " + password +
-                ", " + roles;
     }
 }
 
