@@ -1,6 +1,6 @@
 package agrospot;
 
-import agrospot.dtos.request.UserDTO;
+import agrospot.dtos.request.CreateUserDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class AgrospotApplicationTests {
+class AgrospotAppTests {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -24,7 +24,7 @@ class AgrospotApplicationTests {
 
 	@Test
 	void shouldCreateNewUser() throws Exception {
-		UserDTO userDTO = new UserDTO("Luiz Fernando", "luiz@gmail.com", "123456");
+		CreateUserDTO userDTO = new CreateUserDTO("Luiz Fernando", "luiz@gmail.com", "123456");
 		ResultActions resultActions = mockMvc
 				.perform(post("/users")
 				.contentType(MediaType.APPLICATION_JSON)
