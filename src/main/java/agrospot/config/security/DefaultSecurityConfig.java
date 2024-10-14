@@ -49,6 +49,7 @@ public class DefaultSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .authenticationManager(authenticationManager(http))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
