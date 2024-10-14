@@ -12,13 +12,32 @@ public class RolesModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "name")
-    private RolesEnum role;
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "name")
+//    private RolesEnum role;
 
-    public RolesModel(RolesEnum role) {
-        this.role = role;
-    }
+//    public RolesModel(RolesEnum role) {
+//        this.role = role;
+//    }
+    @Column(nullable = false)
+    private String name;
 
     public RolesModel() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
