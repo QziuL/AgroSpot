@@ -17,7 +17,10 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.user.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+        return this.user.getRoles()
+                .stream()
+                .map(rolesModel -> new SimpleGrantedAuthority(rolesModel.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override

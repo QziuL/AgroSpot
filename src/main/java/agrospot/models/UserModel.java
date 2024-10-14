@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -24,12 +25,20 @@ public class UserModel implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    private List<String> roles = new ArrayList<>();
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    @CollectionTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"))
+//    @Column(name = "role")
+//    private List<String> roles = new ArrayList<>();
 
-    public UserModel(String name, String email, String password, List<String> roles) {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<RolesModel> roles;
+
+    public UserModel(String name, String email, String password, Set<RolesModel> roles) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -41,9 +50,12 @@ public class UserModel implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.roles.contains(RolesEnum.ADMIN))
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+//        if(this.roles.contains(RolesEnum.ADMIN))
+//            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+//        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toSet());
     }
 
     public String getPassword() {
@@ -100,11 +112,11 @@ public class UserModel implements UserDetails {
         this.password = password;
     }
 
-    public List<String> getRoles() {
-        return this.roles;
+    public Set<RolesModel> getRoles() {
+        return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(Set<RolesModel> roles) {
         this.roles = roles;
     }
 }

@@ -1,6 +1,7 @@
 package agrospot.controllers;
 
 import agrospot.dtos.request.CreateUserDTO;
+import agrospot.dtos.response.ListUserDTO;
 import agrospot.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CreateUserDTO>> getAllUsers() {
+    public ResponseEntity<List<ListUserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
