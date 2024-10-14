@@ -1,7 +1,10 @@
 package agrospot.services.impl;
 
 import agrospot.dtos.request.CreateUserDTO;
+import agrospot.dtos.response.ListUserDTO;
+import agrospot.models.RolesModel;
 import agrospot.models.UserModel;
+import agrospot.repositorys.RoleRepository;
 import agrospot.repositorys.UserRepository;
 import agrospot.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
     @Override
     public Boolean createUser(CreateUserDTO userDto) {
         try{
-            userRepository.save(CreateUserDTO.convertDtoToModel(userDto));
+            RolesModel roleModel = roleRepository.findByName(userDto.role()).orElseThrow();
+            userRepository.save(CreateUserDTO.convertDtoToModel(userDto, roleModel));
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -32,14 +39,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<CreateUserDTO> findAllUsers() {
+    public List<ListUserDTO> findAllUsers() {
         List<UserModel> users = userRepository.findAll();
-        List<CreateUserDTO> userDtos = new ArrayList<>();
+        List<ListUserDTO> userDtos = new ArrayList<>();
         for (UserModel user : users) {
-            CreateUserDTO userDto = new CreateUserDTO(user.getName(), user.getEmail(), user.getPassword());
+            ListUserDTO userDto = new ListUserDTO(user.getName(), user.getEmail(), user.getPassword());
             userDtos.add(userDto);
-            System.out.println(user);
-            System.out.println(user.getRoles());
+//            System.out.println(user);
+            System.out.println("User: "+user.getUsername()+" - Roles: "+user.getRoles());
         }
 
         return userDtos;
