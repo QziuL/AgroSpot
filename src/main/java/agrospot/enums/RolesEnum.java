@@ -1,9 +1,9 @@
 package agrospot.enums;
 
 public enum RolesEnum {
-    USER("user"),
-    ADMIN("admin"),
-    PRODUCER("producer");
+    USER("USER"),
+    ADMIN("ADMIN"),
+    PRODUCER("PRODUCER");
 
     private final String role;
 
