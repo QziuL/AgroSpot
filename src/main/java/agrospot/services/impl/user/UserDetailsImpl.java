@@ -1,4 +1,4 @@
-package agrospot.services.impl;
+package agrospot.services.impl.user;
 
 import agrospot.models.UserModel;
 import org.springframework.security.core.GrantedAuthority;
