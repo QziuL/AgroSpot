@@ -1,4 +1,6 @@
 package agrospot.dtos.response;
 
-public record ListUserDTO(String name, String email, String password) {
+import java.util.List;
+
+public record ListUserDTO(String name, String email, String password, List<String> roles) {
 }
