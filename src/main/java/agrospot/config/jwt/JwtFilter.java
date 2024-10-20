@@ -1,6 +1,6 @@
 package agrospot.config.jwt;
 
-import agrospot.services.impl.UserDetailsServiceImpl;
+import agrospot.services.impl.user.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
