@@ -16,15 +16,13 @@ public class ProductModel {
     private String description;
     @Column(nullable = false)
     private UUID externalId;
-    @Column(nullable = false)
     private String pathImage;
 
-    public ProductModel(Long id, String name, String description, UUID externalId, String pathImage) {
-        this.id = id;
+    public ProductModel(String name, String description, String pathImage) {
         this.name = name;
         this.description = description;
-        this.externalId = externalId;
         this.pathImage = pathImage;
+        this.externalId = UUID.randomUUID();
     }
 
     public ProductModel() {}
