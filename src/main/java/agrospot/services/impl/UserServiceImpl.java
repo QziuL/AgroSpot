@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,8 +35,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public CreateUserDTO findUserByEmail(String email) {
-        return null;
+    public ListUserDTO findUserByEmail(String email) {
+        try {
+            UserModel user = userRepository.findByEmail(email).orElseThrow();
+            return new ListUserDTO(user.getName(),
+                    user.getEmail(),
+                    user.getExternalId().toString(),
+                    user.getRoles().stream().map(RolesModel::getName).toList());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     @Override
@@ -43,10 +53,13 @@ public class UserServiceImpl implements UserService {
         List<UserModel> users = userRepository.findAll();
         List<ListUserDTO> userDtos = new ArrayList<>();
         for (UserModel user : users) {
-            ListUserDTO userDto = new ListUserDTO(user.getName(), user.getEmail(), user.getPassword(), user.getRoles().stream().map(RolesModel::getName).toList());
+            ListUserDTO userDto = new ListUserDTO(user.getName(),
+                    user.getEmail(),
+                    user.getExternalId().toString(),
+                    user.getRoles().stream().map(RolesModel::getName).toList());
             userDtos.add(userDto);
 //            System.out.println(user);
-            System.out.println("User: "+user.getUsername()+" - Roles: "+user.getRoles());
+//            System.out.println("User: "+user.getUsername()+" - Roles: "+user.getRoles());
         }
 
         return userDtos;
@@ -58,7 +71,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean deleteUserById(String id) {
-        return null;
+    public Boolean deleteUserByExternalId(UUID externalId) {
+        try{
+            UserModel user = userRepository.findByExternalId(externalId).orElseThrow();
+            userRepository.delete(user);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }
