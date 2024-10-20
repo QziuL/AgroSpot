@@ -2,8 +2,6 @@ package agrospot.dtos.request;
 
 import agrospot.models.RolesModel;
 import agrospot.models.UserModel;
-import agrospot.repositorys.RoleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
