@@ -1,4 +1,4 @@
-package agrospot.services.impl;
+package agrospot.services.impl.user;
 
 import agrospot.dtos.request.CreateUserDTO;
 import agrospot.dtos.response.ListUserDTO;
