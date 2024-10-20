@@ -1,6 +1,5 @@
 package agrospot.models;
 
-import agrospot.enums.RolesEnum;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,8 +15,8 @@ public class UserModel implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private UUID external_id;
+    @Column(nullable = false, unique = true, name = "external_id")
+    private UUID externalId;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false, unique = true)
@@ -42,7 +41,7 @@ public class UserModel implements UserDetails {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.external_id = UUID.randomUUID();
+        this.externalId = UUID.randomUUID();
         this.roles = roles;
     }
 
@@ -84,12 +83,12 @@ public class UserModel implements UserDetails {
         this.id = id;
     }
 
-    public UUID getExternal_id() {
-        return this.external_id;
+    public UUID getExternalId() {
+        return this.externalId;
     }
 
-    public void setExternal_id(UUID external_id) {
-        this.external_id = external_id;
+    public void setExternalId(UUID externalId) {
+        this.externalId = externalId;
     }
 
     public String getName() {
