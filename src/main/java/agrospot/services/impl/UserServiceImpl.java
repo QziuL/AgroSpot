@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(CreateUserDTO.convertDtoToModel(userDto, roleModel));
             return true;
         }catch (Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         List<UserModel> users = userRepository.findAll();
         List<ListUserDTO> userDtos = new ArrayList<>();
         for (UserModel user : users) {
-            ListUserDTO userDto = new ListUserDTO(user.getName(), user.getEmail(), user.getPassword());
+            ListUserDTO userDto = new ListUserDTO(user.getName(), user.getEmail(), user.getPassword(), user.getRoles().stream().map(RolesModel::getName).toList());
             userDtos.add(userDto);
 //            System.out.println(user);
             System.out.println("User: "+user.getUsername()+" - Roles: "+user.getRoles());
